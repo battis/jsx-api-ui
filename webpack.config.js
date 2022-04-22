@@ -1,9 +1,8 @@
 const path = require("path");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
-  mode: "production",
+  mode: "development",
   entry: {
     index: "./index.ts",
   },
@@ -27,7 +26,7 @@ module.exports = {
       {
         test: /\.s?[ac]ss$/,
         use: [
-          MiniCssExtractPlugin.loader,
+          "style-loader",
           {
             loader: "css-loader",
             options: { importLoaders: 2 },
@@ -54,20 +53,16 @@ module.exports = {
   },
   resolve: {
     extensions: [".tsx", ".ts", ".js"],
-    fallback: {
-      path: require.resolve("path-browserify"),
-    },
   },
-  plugins: [
-    new CleanWebpackPlugin(),
-    new MiniCssExtractPlugin({ filename: "./css/[name].css" }),
-  ],
+  plugins: [new CleanWebpackPlugin()],
+  devtool: "inline-source-map",
   externals: [
     "@battis/jsx-api-components",
     "@battis/jsx-components",
     "@battis/jsx-factory",
+    "@battis/jsx-lib",
     "@battis/jsx-ui",
+    "@battis/monkey-patches",
     "@battis/typescript-tricks",
-    "vanilla-router",
   ],
 };
